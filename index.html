@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loading...</title>
+
+<style>
+*{box-sizing:border-box}
+
+html,body{
+    margin:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#050507;
+    color:white;
+}
+
+/* ================= LOADING ================= */
+
+#loading{
+    position:fixed;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:
+    radial-gradient(circle at center,#20202b,#08080c 65%,#020203);
+}
+
+.loadingBox{
+    width:min(430px,86vw);
+}
+
+.randomLogo{
+    width:72px;
+    height:72px;
+    margin:auto;
+    border:3px solid #aaa;
+    border-radius:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:35px;
+    animation:spin 3s linear infinite;
+}
+
+@keyframes spin{
+    to{transform:rotate(360deg)}
+}
+
+.randomTitle{
+    text-align:center;
+    margin-top:25px;
+    font-size:22px;
+    font-weight:bold;
+    letter-spacing:2px;
+}
+
+.randomStatus{
+    text-align:center;
+    margin-top:8px;
+    color:#777;
+    font-size:13px;
+    height:20px;
+}
+
+.progressOuter{
+    margin-top:25px;
+    height:12px;
+    border-radius:20px;
+    background:#202025;
+    overflow:hidden;
+}
+
+.progress{
+    height:100%;
+    width:0;
+    border-radius:20px;
+    background:#bbb;
+}
+
+.percent{
+    text-align:right;
+    color:#777;
+    margin-top:8px;
+    font-size:12px;
+}
+
+.randomCode{
+    margin-top:35px;
+    padding:15px;
+    height:75px;
+    overflow:hidden;
+    border:1px solid #222;
+    border-radius:10px;
+    background:#0d0d12;
+    color:#555;
+    font-family:monospace;
+    font-size:11px;
+}
+
+/* ================= GLITCH ================= */
+
+#glitch{
+    position:fixed;
+    inset:0;
+    display:none;
+    z-index:1000;
+    background:white;
+}
+
+.glitchText{
+    position:absolute;
+    inset:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:clamp(40px,10vw,100px);
+    font-weight:1000;
+}
+
+.red{
+    color:red;
+    transform:translateX(-8px);
+}
+
+.blue{
+    color:cyan;
+    transform:translateX(8px);
+}
+
+.black{
+    color:#000;
+}
+
+/* ================= BIRTHDAY ================= */
+
+#birthday{
+    position:fixed;
+    inset:0;
+    display:none;
+    overflow:hidden;
+    background:
+    radial-gradient(circle at 50% 35%,
+    #5b237e,
+    #291047 40%,
+    #08000e 80%);
+    transition:1s;
+}
+
+#birthday.dark{
+    background:
+    radial-gradient(circle at center,
+    #351541,
+    #070008 80%);
+}
+
+.title{
+    position:absolute;
+    top:5%;
+    width:100%;
+    text-align:center;
+    z-index:20;
+    font-size:clamp(40px,10vw,90px);
+    line-height:.85;
+    font-weight:1000;
+    text-shadow:
+    0 0 8px white,
+    0 0 25px #ff5bd5,
+    0 0 55px #8b5cff;
+    animation:titlePop 1.2s cubic-bezier(.17,.67,.3,1.5);
+}
+
+.title span{
+    display:block;
+    margin-top:14px;
+    font-size:.55em;
+    color:#ffd9f4;
+}
+
+@keyframes titlePop{
+    0%{
+        transform:scale(0) rotate(-8deg);
+        opacity:0;
+    }
+    70%{
+        transform:scale(1.15) rotate(2deg);
+    }
+    100%{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+/* ================= CAKE ================= */
+
+.cakeStage{
+    position:absolute;
+    left:50%;
+    top:54%;
+    transform:translate(-50%,-50%);
+    width:330px;
+    height:330px;
+}
+
+.tableShadow{
+    position:absolute;
+    bottom:12px;
+    left:15px;
+    width:300px;
+    height:40px;
+    background:rgba(0,0,0,.5);
+    border-radius:50%;
+    filter:blur(10px);
+}
+
+.plate{
+    position:absolute;
+    bottom:22px;
+    left:15px;
+    width:300px;
+    height:42px;
+    border-radius:50%;
+    background:linear-gradient(#fff,#d0d0d0);
+    box-shadow:
+    0 8px 15px rgba(0,0,0,.4),
+    inset 0 -6px #aaa;
+    z-index:2;
+}
+
+.cake{
+    position:absolute;
+    bottom:47px;
+    left:45px;
+    width:240px;
+    height:250px;
+    z-index:5;
+}
+
+/* bottom cake */
+
+.layerBottom{
+    position:absolute;
+    bottom:0;
+    width:240px;
+    height:82px;
+    border-radius:18px 18px 28px 28px;
+    background:
+    linear-gradient(
+        90deg,
+        #b82d72,
+        #ff67b6 30%,
+        #ff85c5 55%,
+        #c52e78
+    );
+    box-shadow:
+    inset 0 -15px rgba(90,0,40,.2),
+    0 10px 20px rgba(0,0,0,.35);
+    transform:scaleY(0);
+    transform-origin:bottom;
+    animation:bottomBuild .8s .4s forwards;
+}
+
+@keyframes bottomBuild{
+    to{transform:scaleY(1)}
+}
+
+/* middle cake */
+
+.layerMiddle{
+    position:absolute;
+    bottom:65px;
+    left:12px;
+    width:216px;
+    height:70px;
+    border-radius:17px 17px 23px 23px;
+    background:
+    linear-gradient(
+        90deg,
+        #6330bc,
+        #8e59ee 40%,
+        #a76cff 60%,
+        #5b2cad
+    );
+    box-shadow:inset 0 -12px rgba(45,10,90,.2);
+    transform:scaleY(0);
+    transform-origin:bottom;
+    animation:middleBuild .7s 1.1s forwards;
+}
+
+@keyframes middleBuild{
+    to{transform:scaleY(1)}
+}
+
+/* top */
+
+.layerTop{
+    position:absolute;
+    bottom:118px;
+    left:28px;
+    width:184px;
+    height:62px;
+    border-radius:50%;
+    background:
+    radial-gradient(
+        ellipse,
+        #ffb9df,
+        #ff82c7 60%,
+        #d94491
+    );
+    box-shadow:0 8px 12px rgba(0,0,0,.3);
+    transform:scale(0);
+    animation:topBuild .7s 1.7s forwards;
+}
+
+@keyframes topBuild{
+    to{transform:scale(1)}
+}
+
+/* frosting */
+
+.frosting{
+    position:absolute;
+    bottom:150px;
+    left:30px;
+    width:180px;
+    height:42px;
+    border-radius:50%;
+    background:linear-gradient(#fff,#ffe5f4);
+    z-index:8;
+    transform:scale(0);
+    animation:frost .8s 2.2s forwards;
+}
+
+@keyframes frost{
+    0%{transform:scale(0)}
+    70%{transform:scale(1.1)}
+    100%{transform:scale(1)}
+}
+
+.drip{
+    position:absolute;
+    top:19px;
+    width:27px;
+    height:36px;
+    background:#ffeaf7;
+    border-radius:0 0 16px 16px;
+}
+
+.drip:nth-child(1){left:15px;height:28px}
+.drip:nth-child(2){left:50px;height:42px}
+.drip:nth-child(3){left:91px;height:30px}
+.drip:nth-child(4){left:130px;height:39px}
+
+/* cherries */
+
+.cherry{
+    position:absolute;
+    bottom:170px;
+    width:19px;
+    height:19px;
+    border-radius:50%;
+    background:
+    radial-gradient(circle at 35% 30%,
+    #ffb0c0,#ff245a 50%,#a80036);
+    z-index:11;
+    transform:scale(0);
+    animation:pop .4s 2.7s forwards;
+    box-shadow:0 0 8px #ff3568;
+}
+
+.cherry1{left:55px}
+.cherry2{left:102px}
+.cherry3{left:150px}
+.cherry4{left:180px}
+
+@keyframes pop{
+    to{transform:scale(1)}
+}
+
+/* candles */
+
+.candle{
+    position:absolute;
+    bottom:185px;
+    width:18px;
+    height:70px;
+    border-radius:7px;
+    z-index:12;
+    background:
+    repeating-linear-gradient(
+        45deg,
+        #fff 0 9px,
+        #ff4cae 9px 18px
+    );
+    box-shadow:0 3px 8px #000;
+    transform:scaleY(0);
+    transform-origin:bottom;
+}
+
+.candle1{
+    left:70px;
+    animation:candleBuild .5s 2.8s forwards;
+}
+
+.candle2{
+    left:111px;
+    animation:candleBuild .5s 3s forwards;
+}
+
+.candle3{
+    left:152px;
+    animation:candleBuild .5s 3.2s forwards;
+}
+
+@keyframes candleBuild{
+    to{transform:scaleY(1)}
+}
+
+/* flames */
+
+.flame{
+    position:absolute;
+    width:27px;
+    height:37px;
+    bottom:248px;
+    z-index:15;
+    border-radius:60% 40% 60% 40%;
+    background:
+    radial-gradient(
+        circle at 50% 70%,
+        white 0 15%,
+        #ffe45c 25%,
+        #ff8500 60%,
+        transparent 70%
+    );
+    transform:rotate(-45deg) scale(0);
+    filter:drop-shadow(0 0 15px orange);
+}
+
+.flame1{
+    left:66px;
+    animation:flameIn .5s 3.4s forwards,
+    flicker .18s 3.9s infinite alternate;
+}
+
+.flame2{
+    left:107px;
+    animation:flameIn .5s 3.6s forwards,
+    flicker .16s 4.1s infinite alternate;
+}
+
+.flame3{
+    left:148px;
+    animation:flameIn .5s 3.8s forwards,
+    flicker .2s 4.3s infinite alternate;
+}
+
+@keyframes flameIn{
+    to{transform:rotate(-45deg) scale(1)}
+}
+
+@keyframes flicker{
+    from{transform:rotate(-45deg) scale(1)}
+    to{transform:rotate(-40deg) scale(1.2)}
+}
+
+/* ================= BUTTON ================= */
+
+#blowButton{
+    position:absolute;
+    bottom:10%;
+    z-index:100;
+    padding:15px 25px;
+    border:0;
+    border-radius:50px;
+    background:linear-gradient(135deg,#ff66c4,#8d5cff);
+    color:white;
+    font-size:16px;
+    font-weight:900;
+    cursor:pointer;
+    box-shadow:
+    0 0 15px #ff66c4,
+    0 0 35px rgba(140,80,255,.5);
+    animation:pulse 1.3s infinite alternate;
+}
+
+@keyframes pulse{
+    to{transform:scale(1.07)}
+}
+
+#blowButton:active{
+    transform:scale(.92);
+}
+
+/* ================= WISH ================= */
+
+#wish{
+    position:absolute;
+    inset:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:200;
+    pointer-events:none;
+    font-size:clamp(35px,9vw,80px);
+    font-weight:1000;
+    color:white;
+    text-shadow:
+    0 0 10px white,
+    0 0 30px #ff5bd5,
+    0 0 60px #8c5cff;
+    opacity:0;
+}
+
+#wish.show{
+    animation:wishAppear 1.5s forwards;
+}
+
+@keyframes wishAppear{
+    0%{
+        opacity:0;
+        transform:scale(.3);
+    }
+    30%{
+        opacity:1;
+        transform:scale(1.15);
+    }
+    70%{
+        transform:scale(1);
+    }
+    100%{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+/* smoke */
+
+.smoke{
+    position:fixed;
+    width:12px;
+    height:12px;
+    border-radius:50%;
+    background:rgba(220,220,220,.6);
+    z-index:40;
+    filter:blur(3px);
+    animation:smokeRise 2s forwards;
+}
+
+@keyframes smokeRise{
+    0%{
+        opacity:.8;
+        transform:scale(.5);
+    }
+    50%{opacity:.5}
+    100%{
+        opacity:0;
+        transform:
+        translate(var(--smokeX),-100px)
+        scale(2.5);
+    }
+}
+
+.blown{
+    animation:blow .45s ease-out forwards!important;
+}
+
+@keyframes blow{
+    0%{
+        opacity:1;
+        transform:rotate(-45deg) scale(1.2);
+    }
+    35%{
+        transform:
+        translateX(25px)
+        rotate(-20deg)
+        scale(1.3);
+    }
+    100%{
+        opacity:0;
+        transform:
+        translateX(50px)
+        rotate(10deg)
+        scale(0);
+    }
+}
+
+/* ================= MESSAGE ================= */
+
+.message{
+    position:absolute;
+    bottom:3%;
+    width:100%;
+    text-align:center;
+    font-size:clamp(16px,4vw,24px);
+    font-weight:bold;
+    color:#ffe0f5;
+    z-index:20;
+    opacity:0;
+    animation:messageIn 1s 4s forwards;
+}
+
+@keyframes messageIn{
+    to{opacity:1}
+}
+
+/* ================= CONFETTI ================= */
+
+.confetti{
+    position:fixed;
+    top:-30px;
+    width:9px;
+    height:18px;
+    z-index:50;
+    animation:fall linear forwards;
+}
+
+@keyframes fall{
+    to{
+        transform:
+        translateY(110vh)
+        rotate(900deg);
+    }
+}
+
+/* ================= SPARKLES ================= */
+
+.sparkle{
+    position:fixed;
+    z-index:30;
+    font-size:22px;
+    pointer-events:none;
+    animation:sparkle 1.2s forwards;
+}
+
+@keyframes sparkle{
+    0%{
+        opacity:0;
+        transform:scale(0) rotate(0);
+    }
+    50%{
+        opacity:1;
+        transform:scale(1.4) rotate(180deg);
+    }
+    100%{
+        opacity:0;
+        transform:scale(0) rotate(360deg);
+    }
+}
+
+/* mobile */
+
+@media(max-width:500px){
+    .cakeStage{
+        transform:translate(-50%,-48%) scale(.82);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- RANDOM LOADING SCREEN -->
+
+<div id="loading">
+
+    <div class="loadingBox">
+
+        <div class="randomLogo">◈</div>
+
+        <div class="randomTitle">
+            SYSTEM OPTIMIZATION
+        </div>
+
+        <div class="randomStatus" id="status">
+            Checking files...
+        </div>
+
+        <div class="progressOuter">
+            <div class="progress" id="progress"></div>
+        </div>
+
+        <div class="percent" id="percent">
+            0%
+        </div>
+
+        <div class="randomCode" id="code">
+            SYSTEM://INITIALIZE<br>
+            CACHE://0000<br>
+            PROCESS://RUNNING
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- SURPRISE GLITCH -->
+
+<div id="glitch">
+
+    <div class="glitchText red">WAIT...</div>
+    <div class="glitchText blue">WAIT...</div>
+    <div class="glitchText black">WAIT...</div>
+
+</div>
+
+
+<!-- BIRTHDAY -->
+
+<div id="birthday">
+
+    <div class="title">
+        HAPPY BIRTHDAY
+        <span>RYE (YEYE) 🥳</span>
+    </div>
+
+    <div class="cakeStage">
+
+        <div class="tableShadow"></div>
+
+        <div class="plate"></div>
+
+        <div class="cake">
+
+            <div class="layerBottom"></div>
+
+            <div class="layerMiddle"></div>
+
+            <div class="layerTop"></div>
+
+            <div class="frosting">
+                <div class="drip"></div>
+                <div class="drip"></div>
+                <div class="drip"></div>
+                <div class="drip"></div>
+            </div>
+
+            <div class="cherry cherry1"></div>
+            <div class="cherry cherry2"></div>
+            <div class="cherry cherry3"></div>
+            <div class="cherry cherry4"></div>
+
+            <div class="candle candle1"></div>
+            <div class="candle candle2"></div>
+            <div class="candle candle3"></div>
+
+            <div class="flame flame1"></div>
+            <div class="flame flame2"></div>
+            <div class="flame flame3"></div>
+
+        </div>
+
+    </div>
+
+    <div class="message">
+        🎂 Another year unlocked! 🎂
+        <br>
+        Stay awesome, YEYE. ✨
+    </div>
+
+    <button id="blowButton" onclick="blowCandles()">
+        💨 BLOW THE CANDLES
+    </button>
+
+    <div id="wish">
+        ✨ MAKE A WISH ✨
+    </div>
+
+</div>
+
+
+<script>
+
+/* ==============================
+   RANDOM LOADING
+================================ */
+
+let progress=0;
+
+const statuses=[
+    "Checking files...",
+    "Optimizing memory...",
+    "Scanning temporary files...",
+    "Updating system components...",
+    "Removing unnecessary data...",
+    "Calibrating display...",
+    "Finalizing process...",
+    "Almost finished..."
+];
+
+const codes=[
+    "SYSTEM://INITIALIZE",
+    "CACHE://REBUILD",
+    "MEMORY://OPTIMIZE",
+    "PROCESS://SYNC",
+    "CORE://CHECK",
+    "DATA://VERIFY",
+    "DISPLAY://READY",
+    "SYSTEM://FINAL"
+];
+
+const timer=setInterval(()=>{
+
+    progress++;
+
+    document.getElementById("progress")
+        .style.width=progress+"%";
+
+    document.getElementById("percent")
+        .textContent=progress+"%";
+
+    if(progress%12===0){
+
+        let i=Math.min(
+            Math.floor(progress/12),
+            statuses.length-1
+        );
+
+        document.getElementById("status")
+            .textContent=statuses[i];
+
+        document.getElementById("code")
+            .innerHTML=
+            codes[i]+"<br>"+
+            "PROCESS://"+
+            Math.floor(Math.random()*9999)+
+            "<br>STATUS://RUNNING";
+    }
+
+    if(progress>=100){
+
+        clearInterval(timer);
+
+        setTimeout(reveal,500);
+    }
+
+},65);
+
+
+/* ==============================
+   SURPRISE REVEAL
+================================ */
+
+function reveal(){
+
+    const loading=
+        document.getElementById("loading");
+
+    const glitch=
+        document.getElementById("glitch");
+
+    const birthday=
+        document.getElementById("birthday");
+
+    glitch.style.display="block";
+
+    let flashes=0;
+
+    const flash=setInterval(()=>{
+
+        glitch.style.background=
+            flashes%2===0 ? "#fff":"#000";
+
+        flashes++;
+
+        if(flashes>=7){
+
+            clearInterval(flash);
+
+            loading.style.display="none";
+            glitch.style.display="none";
+            birthday.style.display="block";
+
+            startCelebration();
+        }
+
+    },120);
+}
+
+
+/* ==============================
+   CELEBRATION
+================================ */
+
+function startCelebration(){
+
+    createConfetti(180);
+
+    setTimeout(()=>{
+        createConfetti(100);
+    },1800);
+
+    setInterval(()=>{
+        createSparkle();
+    },180);
+}
+
+
+/* ==============================
+   BLOW CANDLES
+================================ */
+
+let candlesBlown=false;
+
+function blowCandles(){
+
+    if(candlesBlown)return;
+
+    candlesBlown=true;
+
+    const button=
+        document.getElementById("blowButton");
+
+    const birthday=
+        document.getElementById("birthday");
+
+    const flames=
+        document.querySelectorAll(".flame");
+
+    button.style.opacity="0";
+    button.style.pointerEvents="none";
+
+    flames.forEach((flame,index)=>{
+
+        flame.style.animation=
+            "flicker .06s infinite alternate";
+
+        setTimeout(()=>{
+
+            flame.classList.add("blown");
+
+            createSmoke(flame);
+
+        },index*450);
+
+    });
+
+    setTimeout(()=>{
+
+        birthday.classList.add("dark");
+
+        document.getElementById("wish")
+            .classList.add("show");
+
+        createConfetti(250);
+
+        for(let i=0;i<30;i++){
+
+            setTimeout(()=>{
+                createSparkle();
+            },i*80);
+
+        }
+
+    },2200);
+}
+
+
+/* ==============================
+   SMOKE
+================================ */
+
+function createSmoke(flame){
+
+    const smoke=
+        document.createElement("div");
+
+    smoke.className="smoke";
+
+    const rect=
+        flame.getBoundingClientRect();
+
+    smoke.style.left=
+        (rect.left+rect.width/2)+"px";
+
+    smoke.style.top=
+        (rect.top+rect.height/2)+"px";
+
+    smoke.style.setProperty(
+        "--smokeX",
+        ((Math.random()*50)-25)+"px"
+    );
+
+    document.body.appendChild(smoke);
+
+    setTimeout(()=>{
+        smoke.remove();
+    },2000);
+}
+
+
+/* ==============================
+   CONFETTI
+================================ */
+
+function createConfetti(amount){
+
+    for(let i=0;i<amount;i++){
+
+        const c=
+            document.createElement("div");
+
+        c.className="confetti";
+
+        c.style.left=
+            Math.random()*100+"vw";
+
+        c.style.background=
+            `hsl(${Math.random()*360},100%,65%)`;
+
+        c.style.animationDuration=
+            (2.5+Math.random()*4)+"s";
+
+        c.style.animationDelay=
+            Math.random()*1.2+"s";
+
+        document.body.appendChild(c);
+
+        setTimeout(()=>{
+            c.remove();
+        },7000);
+    }
+}
+
+
+/* ==============================
+   SPARKLES
+================================ */
+
+function createSparkle(){
+
+    const s=
+        document.createElement("div");
+
+    s.className="sparkle";
+
+    s.textContent=
+        Math.random()>.5
+        ?"✨"
+        :"⭐";
+
+    s.style.left=
+        Math.random()*100+"vw";
+
+    s.style.top=
+        Math.random()*100+"vh";
+
+    document.body.appendChild(s);
+
+    setTimeout(()=>{
+        s.remove();
+    },1200);
+}
+
+</script>
+
+</body>
+</html>
